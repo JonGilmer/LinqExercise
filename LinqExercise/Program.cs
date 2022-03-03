@@ -38,7 +38,7 @@ namespace LinqExercise
 
             //Change the value at index 4 to your age, then print the numbers in decsending order
             Console.WriteLine("\n\nChange index 4 to age, then order in descending:");
-            numbers[4] = 27;
+            numbers[3] = 27;
             numbers.OrderByDescending(x => x).ToList().ForEach(x => Console.Write($"{x}\t"));
 
             // List of employees ***Do not remove this***
