@@ -11,43 +11,72 @@ namespace LinqExercise
 
         static void Main(string[] args)
         {
-            /*
-             * 
-             * Complete every task using Method OR Query syntax.
-             *
-             * HINT: Use the List of Methods defined in the Lecture Material Google Doc ***********
-             *
-             * You may find that Method syntax is easier to use since it is most like C#
-             * Every one of these can be completed using Linq and then printing with a foreach loop.
-             * Push to your github when completed!
-             * 
-             */
 
             //Print the Sum and Average of numbers
+            Console.WriteLine("Sum:");
+            var sum = numbers.Sum();
+            Console.WriteLine(sum);
+
+            Console.WriteLine("\nAverage:");
+            var avg = numbers.Average();
+            Console.WriteLine(avg);
 
             //Order numbers in ascending order and decsending order. Print each to console.
+            Console.WriteLine("\nAscending");
+            numbers.OrderBy(x => x).ToList().ForEach(x => Console.Write($"{x}\t"));
+
+            Console.WriteLine("\n\nDescending");
+            numbers.OrderByDescending(x => x).ToList().ForEach(x => Console.Write($"{x}\t"));
 
             //Print to the console only the numbers greater than 6
+            Console.WriteLine("\n\nNumbers Greater Than 6:");
+            numbers.Where(x => x > 6).ToList().ForEach(x => Console.Write($"{x}\t"));
 
             //Order numbers in any order (acsending or desc) but only print 4 of them **foreach loop only!**
+            Console.WriteLine("\n\nOnly Print 4 Numbers:");
+            numbers.OrderByDescending(x => x).Take(4).ToList().ForEach(x => Console.Write($"{x}\t"));
 
             //Change the value at index 4 to your age, then print the numbers in decsending order
+            Console.WriteLine("\n\nChange index 4 to age, then order in descending:");
+            numbers[4] = 27;
+            numbers.OrderByDescending(x => x).ToList().ForEach(x => Console.Write($"{x}\t"));
 
             // List of employees ***Do not remove this***
             var employees = CreateEmployees();
 
             //Print all the employees' FullName properties to the console only if their FirstName starts with a C OR an S.
             //Order this in acesnding order by FirstName.
+            Console.WriteLine("\n\nOrder names by C and S:");
+            employees.Where(x => x.FirstName[0] == 'C' || x.FirstName[0] == 'S').OrderBy(x => x.FirstName).ToList().ForEach(x =>
+            {
+                Console.Write(x.FirstName);
+                Console.Write($" {x.LastName}\n");
+            });
 
             //Print all the employees' FullName and Age who are over the age 26 to the console.
             //Order this by Age first and then by FirstName in the same result.
+            Console.WriteLine("\nEmployees over age of 26 by full name:");
+            employees.Where(x => x.Age >= 26).OrderBy(x => x.FirstName).ThenBy(x => x.LastName).ToList().ForEach(x =>
+            {
+                Console.Write($"{x.FullName}\t");
+                Console.Write($"Age: {x.Age}\n");
+            });
+
 
             //Print the Sum and then the Average of the employees' YearsOfExperience
             //if their YOE is less than or equal to 10 AND Age is greater than 35
+            var over10YOE_over35Age = employees.Where(x => x.Age > 35 && x.YearsOfExperience <= 10);
+            var answerSum = over10YOE_over35Age.Sum(x => x.YearsOfExperience);
+
+            Console.WriteLine($"\nSum of employees Years of Experience if YOE is <= 10\nand Age is greater than 35:\n{answerSum}");
+            var answerAverage = over10YOE_over35Age.Average(x => x.YearsOfExperience);
+            Console.WriteLine($"Average:\n{answerAverage}");
 
             //Add an employee to the end of the list without using employees.Add()
+            Console.WriteLine("\n--------New List of Employees--------");
+            employees.Append(new Employee("Marcus", "Fenix", 36, 10)).ToList().ForEach(x =>
+                Console.WriteLine($"{x.FullName}\t{x.Age}\t{x.YearsOfExperience}"));
 
-            
             Console.WriteLine();
 
             Console.ReadLine();
